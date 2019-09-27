@@ -13,7 +13,7 @@ def index():
     metrics = dict()
 
     user = request.args.get('user')
-    repos = g.get_user(user).get_repos():
+    repos = g.get_user(user).get_repos()
 
     '''
     Examples of how to get metrics and return data
@@ -26,4 +26,4 @@ def index():
 
 
 if __name__ == '__main__':
-  app.run(port=5000)
+    app.run(port=5000)
