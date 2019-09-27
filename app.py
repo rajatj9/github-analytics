@@ -1,3 +1,4 @@
+from dependencies.dependencies import get_top_dependencies
 from secrets import GITHUB_API_KEY
 
 from flask import Flask, render_template, request
@@ -22,6 +23,7 @@ def index():
     metrics.update(metrics3(repos))
     '''
 
+    metrics['top_dependencies'] = get_top_dependencies(user)
     return json.dumps(metrics)
 
 
