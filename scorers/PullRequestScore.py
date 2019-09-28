@@ -93,4 +93,7 @@ def get_pr_score(g, username):
     except Exception:  # TODO narrow down - ZeroDivisionError, ValueError
         score = 0
 
+    if np.isnan(score):
+        score = 0
+
     return score, mean_response_time, all_additions, all_deletions

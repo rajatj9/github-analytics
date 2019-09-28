@@ -66,8 +66,8 @@ def get(user):
     result['scores'] = scores
 
     result['community_scores'] = {
-        'comments_quality_score': int(comments_score * 100) if not isnan(comments_score) else 0,
-        'pr_quality_score': int(pr_score * 100) if not isnan(pr_score) else 0
+        'comments_quality_score': int(comments_score * 100),
+        'pr_quality_score': int(pr_score * 100)
     }
 
     result['avg_response_time'] = round(mean_response_time, 1)
