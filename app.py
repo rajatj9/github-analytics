@@ -1,4 +1,5 @@
 import json
+import numpy as np
 from functools import lru_cache
 from math import sqrt, isnan
 
@@ -97,8 +98,8 @@ def compute_overall_score(scores):
 def compute_similarity(resultA, resultB):
     weightedA = [weights[key] * resultA['scores'][key] for key in weights]
     weightedB = [weights[key] * resultB['scores'][key] for key in weights]
-    normA = sqrt(sum([s * s for s in weightedA]))
-    normB = sqrt(sum([s * s for s in weightedB]))
+    normA = np.linalg.norm(weightedA)
+    normB = np.linalg.norm(weightedB)
     dot = sum([a * b for a, b in zip(weightedA, weightedB)])
     return dot / (normA * normB)
 

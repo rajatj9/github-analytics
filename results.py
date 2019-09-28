@@ -1,7 +1,9 @@
-from secrets import GITHUB_API_KEY
 from github import Github
 from scipy.stats import logistic
+
 from scorers.google_java_grader import get_repo_stats
+from secrets import GITHUB_API_KEY
+
 
 def get_results(username: str):
     g = Github(GITHUB_API_KEY)
@@ -35,22 +37,24 @@ def get_results(username: str):
             if analyzed_repos < 1:
                 repo_stats = get_repo_stats(repo.git_url)
                 # repo_stats = {'files_changes': 4, 'insertions': 4, 'deletions': 21, 'total_files': 72, 'total_lines': 14828}
-                code_quality_index += round(1-(repo_stats['insertions']+repo_stats['deletions']) / (2*repo_stats['total_lines']), 2)
+                code_quality_index += round(1 - (repo_stats['insertions'] + repo_stats['deletions']) / (2 * repo_stats['total_lines']), 2)
             analyzed_repos += 1
 
-
-    result = { 'name': user._name.value, 'username': username, 'avatar': user._avatar_url.value, 'bio': user._bio.value, 'email': user._email.value,
+    result = {'name': user._name.value, 'username': username, 'avatar': user._avatar_url.value, 'bio': user._bio.value,
+              'email': user._email.value,
               'location': user._location.value, 'company': user._company.value, 'num_of_java_repos': repo_count,
               'avg_stars_count_per_repo': round(star_count / repo_count, 2) if repo_count != 0 else 0,
-               'closed_issue_ratio': round(closed_issues / total_issues, 2) if total_issues != 0 else 0,
-              'avg_fork_count': fork_count / repo_count if repo_count != 0 else 0,
+              'closed_issue_ratio': round(closed_issues / total_issues, 2) if total_issues != 0 else 0,
+              'avg_fork_count': round(fork_count / repo_count, 2) if repo_count != 0 else 0,
               'has_maven_gradle': has_maven_gradle, 'has_readme': has_readme, 'uses_branches': uses_branches,
-               'code_quality_index': code_quality_index}
+              'code_quality_index': code_quality_index}
 
     return result
 
+
 def score_practices(results):
     return (results['has_readme'] + results['has_maven_gradle'] + results['uses_branches']) / 3
+
 
 def score_activity(results):
     star_score = logistic.cdf(results['avg_stars_count_per_repo'], 5, 3)
