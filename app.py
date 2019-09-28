@@ -97,7 +97,9 @@ def compute_overall_score(scores):
 
 def compute_similarity(resultA, resultB):
     weightedA = [weights[key] * resultA['scores'][key] for key in weights]
+    weightedA = [*weightedA, resultA['avg_response_time'], resultA['code_additions'], resultA['code_deletions']]
     weightedB = [weights[key] * resultB['scores'][key] for key in weights]
+    weightedB = [*weightedB, resultB['avg_response_time'], resultB['code_additions'], resultB['code_deletions']]
     normA = np.linalg.norm(weightedA)
     normB = np.linalg.norm(weightedB)
     dot = sum([a * b for a, b in zip(weightedA, weightedB)])
