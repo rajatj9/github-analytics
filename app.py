@@ -53,6 +53,8 @@ def get(user):
     scores['versatility'] = score_versatility(result['top_dependencies'])
     scores['best_practices'] = score_practices(result)
     scores['github_activity'] = score_activity(result)
+    result['overall_score'] = int(100 * compute_overall_score(scores))
+    scores = {k: int(100 * v) for k, v in scores.items()}
 
     comments_score = get_comments_score(g, user)
     pr_score, mean_response_time, all_additions, all_deletions = get_pr_score(g, user)
@@ -73,7 +75,7 @@ def get(user):
     result['avg_response_time'] = round(mean_response_time, 1)
     result['code_additions'] = all_additions
     result['code_deletions'] = all_deletions
-
+    
     return result
 
 
