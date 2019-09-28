@@ -32,8 +32,9 @@ def get_results(username: str):
 
     result = { 'name': user._name.value, 'username': username, 'avatar': user._avatar_url.value, 'bio': user._bio.value, 'email': user._email.value,
               'location': user._location.value, 'company': user._company.value, 'num_of_java_repos': repo_count,
-              'avg_stars_count_per_repo': star_count / repo_count, 'closed_issue_ratio': (closed_issues / total_issues) if total_issues else 0,
-              'avg_fork_count': fork_count / repo_count,
+              'avg_stars_count_per_repo': round(star_count / repo_count, 2) if repo_count != 0 else 0,
+               'closed_issue_ratio': round(closed_issues / total_issues, 2) if total_issues != 0 else 0,
+              'avg_fork_count': fork_count / repo_count if repo_count != 0 else 0,
               'has_maven_gradle': has_maven_gradle, 'has_readme': has_readme, 'uses_branches': uses_branches}
 
     return result
