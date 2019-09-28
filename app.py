@@ -1,4 +1,4 @@
-from dependencies.dependencies import get_top_dependencies
+from dependencies.dependencies import get_top_dependencies, score_versatility
 from secrets import GITHUB_API_KEY
 
 from flask import Flask, render_template, request
@@ -12,7 +12,7 @@ g = Github(GITHUB_API_KEY)
 
 @app.route('/')
 def index():
-    metrics = dict()
+    scores = dict()
 
     user = request.args.get('user')
     '''
@@ -21,8 +21,15 @@ def index():
     metrics.update(community_metrics(repos))
     metrics.update(metrics3(repos))
     '''
+    # Populate results
     result = get_results(user)
     result['top_dependencies'] = get_top_dependencies(user)
+
+    # Compute scores
+    scores['versatility'] = score_versatility(result['top_dependencies'])
+
+    # Return json
+    result['scores'] = scores
     return json.dumps(result)
 
 

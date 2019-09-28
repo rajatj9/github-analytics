@@ -2,6 +2,7 @@ from secrets import GITHUB_API_KEY
 
 from collections import Counter
 import requests
+from scipy.stats import logistic
 
 headers = {
     'Accept': 'application/vnd.github.hawkgirl-preview+json',
@@ -85,3 +86,9 @@ def get_top_dependencies(user):
     '''
 
     return counter.most_common(10)
+
+def score_versatility(dependencies):
+    avg_count = sum([d[1] for d in dependencies]) / len(dependencies)
+    midpt = 5
+    scale = 10
+    return logistic.cdf(avg_count, midpt, scale)
