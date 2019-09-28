@@ -1,5 +1,7 @@
 # Github Java Insight
 1. Quickstart
+see dockerfile
+
 2. Introduction
 Our goal this hackathon was to visualize a developer's Java abilities based on their publically available GitHub profile. There are already many publically available tools for analyzing GitHub profiles, so we wanted to create a product that would both provide comparable functionality while also introducing some novel insights. Ultimately, our goal was to have a website that help hiring managers or recruiters evaluate potential candidates.
 
@@ -15,7 +17,11 @@ Our project is unique in that it sources information not only from GitHub metada
 
 3. Tech Stack
 4. Scoring
-    * Code Quality
-    *
-    *
+    * GitHub Activity - This metric contains some basic information about how active a user is on GitHub, particularly with respect to forks, stars, and issues on their repositories.
+    * Versatility - GitHub computes a dependency graph for each repository that scans for files used by Maven (among other package managers). We use the API to determine which packages are most used by a given developer across all their repositories. A user's versatility score is a function of the frequencies of their top 10 used packages.
+    * Best Practices - We check for multiple characteristics of a good developer - whether they include descriptive README files, whether they use branches to manage versions, and whether they have Maven or Gradle files in their repositories.
+    * Code Quality - In order to evaluate the quality of a user's Java code, we run the `google-java-format` package on all their Java repositories and compute which fraction of their code violates the style guidelines.
+    * Community - This metric measures how engaged a developer is with the open source community. This includes features such as whether their comments contribute to closing open issues on other repositories, and how long it takes them to respond to and resolve their own issues.
+
 5. Comparison
+One common criteria for hiring an engineer is determining how compatible they are with the other engineers on the team or company that they are joining. We provide some insight into this by taking the cosine similarity of the metrics for two given engineers. This can be used to identify developers who prioritize similar factors, for example if a company really values code quality but doesn't care about open source engagement.
