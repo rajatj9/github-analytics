@@ -11,7 +11,7 @@ def __parse_diff_stats(gitdiff):
 
 def __parse_cloc_stats(clocstat):
     result = []
-    return (int(clocstat[0]), int(clocstat[-1]))
+    return (int(clocstat[0]), int(clocstat[-1])+int(clocstat[-2])+int(clocstat[-3]))
 
 def get_repo_stats(url):
     with tempfile.TemporaryDirectory() as tempdir, tempfile.TemporaryDirectory() as csv_dir:
@@ -44,6 +44,6 @@ def get_repo_stats(url):
         return {**git_result, **cloc_result}
 
 if __name__ == "__main__":
-    repo_url = "https://github.com/google/google-java-format.git"
+    repo_url = "git://github.com/takezoe/amateras-html-editor.git"
     # repo_url = "https://github.com/google/guava.git"
     print(get_repo_stats(repo_url))
