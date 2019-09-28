@@ -71,7 +71,7 @@ def get_top_dependencies(user):
         if lang and lang['name'] == 'Java':
             for dependencyGraphEdge in repoEdge['node']['dependencyGraphManifests']['edges']:
                 for dependencyEdge in dependencyGraphEdge['node']['dependencies']['edges']:
-                    dependencies.append(dependencyEdge['node']['packageName'])
+                    dependencies.append(dependencyEdge['node']['packageName'].split(':')[-1])
                     # use this for matching with the top libraries
                     # dependencies.append(dependencyEdge['node']['packageName'].split(':')[0])
 
