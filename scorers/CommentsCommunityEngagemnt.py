@@ -57,6 +57,14 @@ def get_comments_score(g, username):
         score_ = contains_sample_weight * comment_len_weight * time_weight * ttc_to
         scores.append(score_)
 
-    if len(scores) == 0:
-        scores = [0]
-    return scores
+    try:
+        scores = np.concatenate(scores)
+        scores = scores[scores != 0]
+        if scores.shape[0] == 0:
+            score = scores[0]
+        else:
+            score = scores.mean()
+    except Exception:  # TODO narrow down - ZeroDivisionError, ValueError
+        score = 0
+
+    return score
