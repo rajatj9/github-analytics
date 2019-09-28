@@ -46,16 +46,23 @@ def get_pr_statistics(issue, username):
     return response_times, issue_time_open, num_fixes, conflicts, merges
 
 
-def get_pr_score(username):
+def get_pr_score(g, username):
     prs = g.search_issues('language:Java closed:>2019-01-01', state='closed', author=username, type='pr', sort='comments')
     scores = []
+    all_response_times = []
+    all_additions = 0
+    all_deletions = 0
     for pr in tqdm(prs, total=prs.totalCount):
         pr = pr.as_pull_request()
         additions = pr.additions
         deletions = pr.deletions
 
+        all_additions += additions
+        all_deletions += deletions
+
         response_times, issue_time_open, num_fixes, conflicts, merges = get_pr_statistics(pr.as_issue(), username)
 
+        all_response_times += response_times
         if len(response_times) > 0:
             response_times = np.array(response_times, dtype='float')
             avg_response_time = response_times.mean()
@@ -76,4 +83,9 @@ def get_pr_score(username):
 
         scores.append(score)
 
-    return scores
+    if len(all_response_times) > 0:
+        mean_response_time = np.mean(all_response_times)
+    else:
+        mean_response_time = None
+
+    return scores, mean_response_time, all_additions, all_deletions

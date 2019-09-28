@@ -1,11 +1,6 @@
-from github import Github
 import numpy as np
-import re
 
-g = Github("<token>")
-
-class_pattern = re.compile(r'\s*(public|private)\s+class\s+(\w+)\s+((extends\s+\w+)|(implements\s+\w+( ,\w+)*))?\s*\{')
-method_pattern = re.compile(r'(public|protected|private|static|\s) +[\w\<\>\[\],\s]+\s+(\w+) *\([^\)]*\) *(\{?|[^;])')
+from scorers.constants import class_pattern, method_pattern
 
 
 def get_comments(issue, username):
@@ -31,7 +26,7 @@ def get_comments(issue, username):
     return num_comments, comments_date, reactions, comments_length, contains_sample
 
 
-def get_comment_stats(username):
+def get_comments_score(g, username):
     issues = g.search_issues('language:Java commenter:{} -author:{} state:closed closed:>2019-01-01'.format(username, username),
                              sort='comments')
     scores = []
