@@ -1,12 +1,15 @@
-from dependencies.dependencies import get_top_dependencies, score_versatility
-from secrets import GITHUB_API_KEY
-
-from flask import Flask, render_template, request
-from functools import lru_cache
-from github import Github
-from math import sqrt
-from results import get_results, score_practices, score_activity
 import json
+from functools import lru_cache
+from math import sqrt
+
+from flask import Flask, request
+from github import Github
+
+from dependencies.dependencies import get_top_dependencies, score_versatility
+from results import get_results, score_practices, score_activity
+from scorers.CommentsCommunityEngagemnt import get_comments_score
+from scorers.PullRequestScore import get_pr_score
+from secrets import GITHUB_API_KEY
 
 app = Flask(__name__)
 g = Github(GITHUB_API_KEY)
@@ -50,11 +53,27 @@ def get(user):
     scores['versatility'] = score_versatility(result['top_dependencies'])
     scores['best_practices'] = score_practices(result)
     scores['github_activity'] = score_activity(result)
+
+    comments_score = get_comments_score(g, user)
+    pr_score, mean_response_time, all_additions, all_deletions = get_pr_score(g, user)
+    community_score = (comments_score + pr_score) / 2
+
+    scores['community_score'] = community_score
     result['overall_score'] = int(100 * compute_overall_score(scores))
     scores = {k: int(100 * v) for k, v in scores.items()}
 
     # Return json
     result['scores'] = scores
+
+    result['community_scores'] = {
+        'comments_quality_score': int(comments_score * 100),
+        'pr_quality_score': int(pr_score * 100)
+    }
+
+    result['avg_response_time'] = round(mean_response_time, 1)
+    result['code_additions'] = all_additions
+    result['code_deletions'] = all_deletions
+
     return result
 
 

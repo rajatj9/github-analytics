@@ -18,7 +18,8 @@ ADD templates /app/templates
 ADD results.py /app/
 ADD dependencies /app/dependencies
 ADD binaries /app/binaries
+ADD secrets.py /app/secrets.py
+EXPOSE 8000
 
-EXPOSE 5000
-
-CMD python3 scorers/google_java_grader.py
+# CMD python3 scorers/google_java_grader.py
+CMD gunicorn --reload -t 300 app:app --bind 0.0.0.0:8000

@@ -1,5 +1,5 @@
-from tqdm import tqdm
 import numpy as np
+from tqdm import tqdm
 
 
 def is_bot(event):
@@ -86,6 +86,11 @@ def get_pr_score(g, username):
     if len(all_response_times) > 0:
         mean_response_time = np.mean(all_response_times)
     else:
-        mean_response_time = None
+        mean_response_time = 0
 
-    return scores, mean_response_time, all_additions, all_deletions
+    try:
+        score = np.mean(scores)
+    except Exception:  # TODO narrow down - ZeroDivisionError, ValueError
+        score = 0
+
+    return score, mean_response_time, all_additions, all_deletions
