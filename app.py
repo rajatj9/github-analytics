@@ -28,7 +28,7 @@ def compare():
     return json.dumps({
         'userA': resultA,
         'userB': resultB,
-        'similarity': similarity
+        'similarity': int(100 * similarity)
     })
 
 
@@ -50,7 +50,8 @@ def get(user):
     scores['versatility'] = score_versatility(result['top_dependencies'])
     scores['best_practices'] = score_practices(result)
     scores['github_activity'] = score_activity(result)
-    result['overall_score'] = compute_overall_score(scores)
+    result['overall_score'] = int(100 * compute_overall_score(scores))
+    scores = {k: int(100 * v) for k, v in scores.items()}
 
     # Return json
     result['scores'] = scores
