@@ -28,7 +28,7 @@ def get_results(username: str):
                 if file.name.lower() == "readme.md":
                     has_readme = True
 
-    result = {'avatar': user._avatar_url.value, 'bio': user._bio.value, 'email': user._email.value,
+    result = { 'name': user._name.value, 'username': username, 'avatar': user._avatar_url.value, 'bio': user._bio.value, 'email': user._email.value,
               'location': user._location.value, 'company': user._company.value, 'num_of_java_repos': repo_count,
               'avg_stars_count_per_repo': star_count / repo_count, 'avg_open_issues_per_repo': open_issues / repo_count,
               'avg_fork_count': fork_count / repo_count,
