@@ -4,6 +4,7 @@ from secrets import GITHUB_API_KEY
 from flask import Flask, render_template, request
 from functools import lru_cache
 from github import Github
+from math import sqrt
 from results import get_results, score_practices, score_activity
 import json
 
@@ -14,7 +15,22 @@ g = Github(GITHUB_API_KEY)
 @app.route('/')
 def index():
     user = request.args.get('user')
-    return get(user)
+    return json.dumps(get(user))
+
+
+@app.route('/compare')
+def compare():
+    userA = request.args.get('userA')
+    userB = request.args.get('userB')
+    resultA = get(userA)
+    resultB = get(userB)
+    similarity = compute_similarity(resultA, resultB)
+    return json.dumps({
+        'userA': resultA,
+        'userB': resultB,
+        'similarity': similarity
+    })
+
 
 @lru_cache(maxsize=10)
 def get(user):
@@ -38,17 +54,29 @@ def get(user):
 
     # Return json
     result['scores'] = scores
-    return json.dumps(result)
+    return result
+
+
+weights = {
+    'versatility': 1,
+    'best_practices': 1,
+    'github_activity': 1,
+}
 
 
 def compute_overall_score(scores):
-    weights = {
-        'versatility': 1,
-        'best_practices': 1,
-        'github_activity': 1,
-    }
-    score = sum([weights[key] * scores[key] for key in weights])
-    return score / sum(weights.values())
+    weighted_scores = [weights[key] * scores[key] for key in weights]
+    return sum(weighted_scores) / sum(weights.values())
+
+
+def compute_similarity(resultA, resultB):
+    weightedA = [weights[key] * resultA['scores'][key] for key in weights]
+    weightedB = [weights[key] * resultB['scores'][key] for key in weights]
+    normA = sqrt(sum([s * s for s in weightedA]))
+    normB = sqrt(sum([s * s for s in weightedB]))
+    dot = sum([a * b for a, b in zip(weightedA, weightedB)])
+    return dot / (normA * normB)
+
 
 if __name__ == '__main__':
     app.run(port=5000)
