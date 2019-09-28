@@ -16,6 +16,8 @@ Our app computes these metrics and aggregates them to assign a final score. It a
 Our project is unique in that it sources information not only from GitHub metadata, but it also performs an analysis of the code itself. Additionally, we added a feature to compare the compatibility of two engineers based on their metric subscores.
 
 3. Tech Stack
+Our front-end is built on Vue.js and our backend uses Flask (Python). We use a combination of PyGitHub (v3 API calls) and GraphQL (v4 API calls for dependency graph). Our code quality analysis uses `google-java-format`. We provide a Dockerfile to automate the build and deployment process.
+
 4. Scoring
     * GitHub Activity - This metric contains some basic information about how active a user is on GitHub, particularly with respect to forks, stars, and issues on their repositories.
     * Versatility - GitHub computes a dependency graph for each repository that scans for files used by Maven (among other package managers). We use the API to determine which packages are most used by a given developer across all their repositories. A user's versatility score is a function of the frequencies of their top 10 used packages.
