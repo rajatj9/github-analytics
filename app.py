@@ -3,7 +3,7 @@ from secrets import GITHUB_API_KEY
 
 from flask import Flask, render_template, request
 from github import Github
-from results import get_results
+from results import get_results, score_practices, score_activity
 import json
 
 app = Flask(__name__)
@@ -27,6 +27,8 @@ def index():
 
     # Compute scores
     scores['versatility'] = score_versatility(result['top_dependencies'])
+    scores['best_practices'] = score_practices(result)
+    scores['github_activity'] = score_activity(result)
 
     # Return json
     result['scores'] = scores

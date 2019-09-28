@@ -88,7 +88,10 @@ def get_top_dependencies(user):
     return counter.most_common(10)
 
 def score_versatility(dependencies):
-    avg_count = sum([d[1] for d in dependencies]) / len(dependencies)
+    try:
+        avg_count = sum([d[1] for d in dependencies]) / len(dependencies)
+    except:
+        avg_count = 0
     midpt = 5
     scale = 10
     return logistic.cdf(avg_count, midpt, scale)
