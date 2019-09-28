@@ -35,7 +35,7 @@ def get_results(username: str):
             if analyzed_repos < 1:
                 repo_stats = get_repo_stats(repo.git_url)
                 # repo_stats = {'files_changes': 4, 'insertions': 4, 'deletions': 21, 'total_files': 72, 'total_lines': 14828}
-                code_quality_index += round((repo_stats['insertions']+repo_stats['deletions']) / repo_stats['total_lines'] + repo_stats['insertions']+repo_stats['deletions'], 2)*100
+                code_quality_index += round(1-(repo_stats['insertions']+repo_stats['deletions']) / (2*repo_stats['total_lines']), 2)
             analyzed_repos += 1
 
 
