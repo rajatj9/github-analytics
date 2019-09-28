@@ -1,9 +1,8 @@
+from secrets import GITHUB_API_KEY
 from github import Github
 
-credentials = open("credentials.json").read().split(',')
-
 def get_results(username: str):
-    g = Github(credentials[0], credentials[1])
+    g = Github(GITHUB_API_KEY)
     user = g.get_user(username)
     repos = user.get_repos()
     result = {}
