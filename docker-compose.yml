@@ -1,0 +1,10 @@
+version: '0.1'
+services:
+  frontend:
+    image: mcianciara/brhack-frontend
+    ports:
+      - "8080:8080"
+  backend:
+    image: "mcianciara/brhack-backend"
+    ports:
+      - "8000:8000"
