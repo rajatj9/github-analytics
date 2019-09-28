@@ -56,6 +56,7 @@ def get(user):
     scores['versatility'] = score_versatility(result['top_dependencies'])
     scores['best_practices'] = score_practices(result)
     scores['github_activity'] = score_activity(result)
+    scores['code_quality'] = result['code_quality_index']
 
     comments_score = get_comments_score(g, user)
     pr_score, mean_response_time, all_additions, all_deletions = get_pr_score(g, user)
@@ -80,6 +81,7 @@ def get(user):
 
 
 weights = {
+    'code_quality': 1,
     'versatility': 1,
     'best_practices': 1,
     'github_activity': 1,
