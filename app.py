@@ -85,6 +85,7 @@ weights = {
     'versatility': 1,
     'best_practices': 1,
     'github_activity': 1,
+    'community_score': 1,
 }
 
 

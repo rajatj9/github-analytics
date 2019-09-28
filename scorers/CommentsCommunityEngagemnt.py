@@ -1,4 +1,5 @@
 import numpy as np
+from tqdm import tqdm
 
 from scorers.constants import class_pattern, method_pattern
 
@@ -30,7 +31,7 @@ def get_comments_score(g, username):
     issues = g.search_issues('language:Java commenter:{} -author:{} state:closed closed:>2019-01-01'.format(username, username),
                              sort='comments')
     scores = []
-    for issue in issues:
+    for issue in tqdm(issues, total=issues.totalCount):
         num_comments, comments_dates, reactions, comments_length, contains_sample = get_comments(issue, username)
         issue_close_date = issue.closed_at
         issue_time_open = (issue_close_date - issue.created_at).days
