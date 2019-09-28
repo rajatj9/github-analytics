@@ -34,11 +34,21 @@ def get(user):
     scores['versatility'] = score_versatility(result['top_dependencies'])
     scores['best_practices'] = score_practices(result)
     scores['github_activity'] = score_activity(result)
+    result['overall_score'] = compute_overall_score(scores)
 
     # Return json
     result['scores'] = scores
     return json.dumps(result)
 
+
+def compute_overall_score(scores):
+    weights = {
+        'versatility': 1,
+        'best_practices': 1,
+        'github_activity': 1,
+    }
+    score = sum([weights[key] * scores[key] for key in weights])
+    return score / sum(weights.values())
 
 if __name__ == '__main__':
     app.run(port=5000)
