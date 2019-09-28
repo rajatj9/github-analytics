@@ -38,7 +38,7 @@ def compare():
     })
 
 
-@lru_cache(maxsize=10)
+@lru_cache(maxsize=100)
 def get(user):
     scores = dict()
 
