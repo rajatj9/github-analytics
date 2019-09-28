@@ -10,8 +10,11 @@ from results import get_results, score_practices, score_activity
 from scorers.CommentsCommunityEngagemnt import get_comments_score
 from scorers.PullRequestScore import get_pr_score
 from secrets import GITHUB_API_KEY
+from flask_cors import CORS
 
 app = Flask(__name__)
+cors = CORS(app)
+
 g = Github(GITHUB_API_KEY)
 
 
@@ -73,8 +76,8 @@ def get(user):
     result['avg_response_time'] = round(mean_response_time, 1)
     result['code_additions'] = all_additions
     result['code_deletions'] = all_deletions
-
-    return result
+    print(result)
+    return json.dumps(result)
 
 
 weights = {
