@@ -1,6 +1,6 @@
 import json
 from functools import lru_cache
-from math import sqrt
+from math import sqrt, isnan
 
 from flask import Flask, request
 from github import Github
@@ -60,14 +60,14 @@ def get(user):
 
     scores['community_score'] = community_score
     result['overall_score'] = int(100 * compute_overall_score(scores))
-    scores = {k: int(100 * v) for k, v in scores.items()}
+    scores = {k: int(100 * v) for k, v in scores.items() if not isnan(v)}
 
     # Return json
     result['scores'] = scores
 
     result['community_scores'] = {
-        'comments_quality_score': int(comments_score * 100),
-        'pr_quality_score': int(pr_score * 100)
+        'comments_quality_score': int(comments_score * 100) if not isnan(comments_score) else 0,
+        'pr_quality_score': int(pr_score * 100) if not isnan(pr_score) else 0
     }
 
     result['avg_response_time'] = round(mean_response_time, 1)
