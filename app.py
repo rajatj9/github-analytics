@@ -38,7 +38,7 @@ def compare():
     })
 
 
-@lru_cache(maxsize=10)
+@lru_cache(maxsize=100)
 def get(user):
     scores = dict()
 
@@ -76,8 +76,7 @@ def get(user):
     result['avg_response_time'] = round(mean_response_time, 1)
     result['code_additions'] = all_additions
     result['code_deletions'] = all_deletions
-    print(result)
-    return json.dumps(result)
+    return result
 
 
 weights = {
