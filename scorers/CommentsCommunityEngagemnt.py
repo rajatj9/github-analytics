@@ -67,4 +67,7 @@ def get_comments_score(g, username):
     except Exception:  # TODO narrow down - ZeroDivisionError, ValueError
         score = 0
 
+    if np.isnan(score):
+        score = 0
+
     return score
