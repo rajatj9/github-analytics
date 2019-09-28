@@ -2,6 +2,7 @@ from dependencies.dependencies import get_top_dependencies, score_versatility
 from secrets import GITHUB_API_KEY
 
 from flask import Flask, render_template, request
+from functools import lru_cache
 from github import Github
 from results import get_results, score_practices, score_activity
 import json
@@ -12,9 +13,13 @@ g = Github(GITHUB_API_KEY)
 
 @app.route('/')
 def index():
+    user = request.args.get('user')
+    return get(user)
+
+@lru_cache(maxsize=10)
+def get(user):
     scores = dict()
 
-    user = request.args.get('user')
     '''
     Examples of how to get metrics and return data
     metrics.update(codequality_metrics(repos))
