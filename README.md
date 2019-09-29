@@ -8,9 +8,9 @@ see dockerfile
 
 ## Usage
 Request format for insights:
-''' https://localhost:8000/?user=<github_username>
+``` https://localhost:8000/?user=<github_username> ```
 Request format for Compatability:
-''' https://localhost:8000/?userA=<username_1>&userB=<username_2>
+``` https://localhost:8000/?userA=<username_1>&userB=<username_2> ```
 
 
 ## 2. Introduction
