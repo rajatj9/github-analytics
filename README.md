@@ -6,6 +6,13 @@ This project was built at the BizReach World Hackathon in Tokyo in 2 days.
 
 see dockerfile
 
+## Usage
+Request format for insights:
+''' https://localhost:8000/?user=<github_username>
+Request format for Compatability:
+''' https://localhost:8000/?userA=<username_1>&userB=<username_2>
+
+
 ## 2. Introduction
 
 Our goal at this hackathon was to visualize a developer's Java abilities based on their publically available GitHub profile. There are already many publically available tools for analyzing GitHub profiles, so we wanted to create a product that would both provide comparable functionality while also introducing some novel insights. Ultimately, our goal was to have a website that help hiring managers or recruiters evaluate potential candidates.
