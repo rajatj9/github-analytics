@@ -7,9 +7,9 @@ This project was built at the BizReach World Hackathon in Tokyo in 2 days.
 see dockerfile
 
 ## Usage
-Request format for insights:
+* Request format for insights:
 ``` https://localhost:8000/?user=<github_username> ```
-Request format for Compatability:
+* Request format for Compatability:
 ``` https://localhost:8000/?userA=<username_1>&userB=<username_2> ```
 
 
