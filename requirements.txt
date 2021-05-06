@@ -5,4 +5,4 @@ requests==2.20.0
 numpy==1.17.2
 tqdm==4.36.1
 PyGithub==1.43.8
-Flask-Cors==3.0.7
+Flask-Cors==3.0.9
